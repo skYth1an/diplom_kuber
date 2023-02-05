@@ -1,0 +1,16 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: exporter
+    app.kubernetes.io/name: {{ .Values.names.kubemetric }}
+    app.kubernetes.io/version: 2.3.0
+  name: {{ .Values.names.kubemetric }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ .Values.names.kubemetric }}
+subjects:
+- kind: ServiceAccount
+  name: {{ .Values.names.kubemetric }}
+  namespace: kube-system

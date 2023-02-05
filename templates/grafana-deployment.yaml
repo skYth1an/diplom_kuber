@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.grafana}}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.names.grafana}}
+  template:
+    metadata:
+      name: {{ .Values.names.grafana}}
+      labels:
+        app: {{ .Values.names.grafana}}
+    spec:
+      containers:
+      - name: {{ .Values.names.grafana}}
+        image: {{ .Values.images.grafana}}
+        ports:
+        - name: {{ .Values.names.grafana}}
+          containerPort: 3000
+        resources:
+          {{ toYaml .Values.resourcesgrafana | nindent 12 }}
+        volumeMounts:
+          - mountPath: /var/lib/grafana
+            name: grafana-storage
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+            readOnly: false
+
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+        - name: grafana-datasources
+          configMap:
+              defaultMode: 420
+              name: grafana-datasources
+

@@ -1,0 +1,35 @@
+replicaCount: 1
+namespace: monitoring
+namespace2: kube-system
+
+names:
+  nodeexporter: node-exporter
+  grafana: grafana
+  prometheus: prometheus
+  kubemetric: kube-state-metrics
+  app: app
+
+
+
+images:
+  nodeexporter: prom/node-exporter
+  grafana: grafana/grafana:latest
+  prometheus: prom/prometheus
+  kubemetric: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.3.0
+  app: skyth1an/myapp:latest
+resourcesgrafana:
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+  requests: 
+    memory: 500M
+    cpu: "500m"
+
+
+resourcesnodeexporter:
+  limits:
+    cpu: 250m
+    memory: 180Mi
+  requests:
+    cpu: 102m
+    memory: 180Mi
